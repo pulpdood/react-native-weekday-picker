@@ -6,7 +6,8 @@ import {
 } from 'react-native';
 
 export default function Day(props) {
-  let daysMapping = {0: 'Su', 1:'M', 2: 'Tu', 3: 'W', 4:'Th', 5:'F', 6:'Sa' }
+  let daysMapping = props.isStartMonday ? {0:'M', 1: 'Tu', 2: 'W', 3:'Th', 4:'F', 5:'Sa', 6: 'Su'}
+  : {0: 'Su', 1:'M', 2: 'Tu', 3: 'W', 4:'Th', 5:'F', 6:'Sa' }
   return (
     <TouchableOpacity 
       style={ [props.style, styles.default, props.isActive ? styles.active : styles.inactive]}

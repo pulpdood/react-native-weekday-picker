@@ -12,12 +12,12 @@ WeekdayPicker.defaultProps = {
     onChange: null,
     style: null,
     dayStyle: null,
-    isStartMonday: false,
-    days: { 1:1, 2:1 , 3:1 , 4:1 , 5:1, 6:0, 0:0 }    
+    days: { 1:1, 2:1 , 3:1 , 4:1 , 5:1, 6:0, 0:0 },
+    startOfWeek: 1,
 }
 
 export default function WeekdayPicker(props){
-  let { onChange, style, dayStyle, days, isStartMonday } = props;
+  let { onChange, style, dayStyle, days, startOfWeek } = props;
   /**
    * Function for toggling the day
    * 
@@ -36,17 +36,35 @@ export default function WeekdayPicker(props){
   // 
   let daysContainer = [];
 
+  // This is for sorting the days so that they will start from "startOfWeek"
+  //
+  let temp = [];
+
   Object.keys(days).forEach( (day, i) => {
-    daysContainer.push(<Day 
-      key = {i}
-      toggleDay={toggleDay} 
-      day={day} 
-      style={[styles.day, dayStyle]} 
-      isStartMonday={isStartMonday}
-      activeTextColor='38dfe1'
-      isActive={1 === days[day]} // Pass boolean
-      />)
+    if(day >= startOfWeek) {
+      daysContainer.push(<Day 
+        key = {i}
+        toggleDay={toggleDay} 
+        day={day} 
+        style={[styles.day, dayStyle]}
+        activeTextColor='38dfe1'
+        isActive={1 === days[day]} // Pass boolean
+        />)
+    } else {  
+      temp.push(<Day 
+        key = {i}
+        toggleDay={toggleDay} 
+        day={day} 
+        style={[styles.day, dayStyle]}
+        activeTextColor='38dfe1'
+        isActive={1 === days[day]} // Pass boolean
+        />)
+    }
   });
+
+  daysContainer = daysContainer.concat(temp);
+
+
   return (
     <View style={[styles.container, style]}>
         {daysContainer}
